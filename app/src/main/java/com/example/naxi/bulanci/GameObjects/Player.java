@@ -33,6 +33,7 @@ public class Player {
     private int positionX = 50;
     private int positionY = 50;
 
+    private boolean shotting = false;
     private boolean moving = false;
     private int moveX = 1;
     private int moveY = 0;
@@ -75,7 +76,7 @@ public class Player {
         }
 
         gun.Update();
-        gun.Shot(gameView,positionX, positionY,moveX, moveY);
+        if (shotting) {gun.Shot(gameView,positionX, positionY,moveX, moveY); shotting = false;}
     }
 
 
@@ -93,6 +94,12 @@ public class Player {
     public void Move(boolean is)
     {
         moving = is;
+    }
+
+
+    public void Shot(boolean shotting)
+    {
+        this.shotting = shotting;
     }
 
     public void Draw(Canvas canvas)

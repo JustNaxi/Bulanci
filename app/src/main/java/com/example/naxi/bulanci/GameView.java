@@ -8,12 +8,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.naxi.bulanci.GameObjects.Bullet;
 import com.example.naxi.bulanci.GameObjects.Player;
@@ -23,11 +28,16 @@ import java.util.ArrayList;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     GameLoop loop;
+    Sensor proximitySensor;
 
     public GameView(Context context)
     {
         super(context);
         Initialization();
+
+        SensorManager sm = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
+        proximitySensor = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        sm.registerListener(sel,proximitySensor,SensorManager.SENSOR_DELAY_NORMAL);
 
         getHolder().addCallback(this);
 
@@ -69,6 +79,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
 
+
+
     Player player;
 
     int ScreenHeight;
@@ -94,6 +106,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update()
     {
+
+
         player.Update();
 
         for(Bullet bullet : bullets)
@@ -186,4 +200,35 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
         return super.onTouchEvent(event);
     }
+
+
+
+
+
+
+
+    SensorEventListener sel = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event)
+        {
+            if (event.sensor.getType()==Sensor.TYPE_PROXIMITY)
+            {
+                if (event.values[0]>=-4 && event.values[0]<=4)
+                {
+                    player.Shot(true);
+                    Toast.makeText(getContext(),"JO", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    player.Shot(false);
+                    Toast.makeText(getContext(),"NE", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
 }

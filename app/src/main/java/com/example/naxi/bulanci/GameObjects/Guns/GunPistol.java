@@ -16,7 +16,7 @@ public class GunPistol implements IGun
     public boolean Shot(GameView gw, int positionX, int positionY, int moveX, int moveY)
     {
         if ((delay<1)&&(isShots==false)) {shots = maxShots; isShots = true;}
-        if ((delay<1)) {shots--; delay = 30; gw.bullets.add(new Bullet(gw, positionX, positionY, moveX*speed, moveY*speed));}
+        if ((delay<1)) {shots--; delay = 20; gw.bullets.add(new Bullet(gw, positionX, positionY, moveX*speed, moveY*speed));}
 
         if ((shots==0)&& isShots) {delay = 30*10; isShots=false; }
 
