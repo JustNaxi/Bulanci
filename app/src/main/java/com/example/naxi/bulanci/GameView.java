@@ -14,6 +14,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.naxi.bulanci.GameObjects.Bullet;
+import com.example.naxi.bulanci.GameObjects.Enemy;
 import com.example.naxi.bulanci.GameObjects.Player;
 
 import java.util.ArrayList;
@@ -38,6 +40,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         SensorManager sm = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
         proximitySensor = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         sm.registerListener(sel,proximitySensor,SensorManager.SENSOR_DELAY_NORMAL);
+
+
+        EnemyList.add(new Enemy(this));
+        EnemyList.add(new Enemy(this));
+        EnemyList.add(new Enemy(this));
 
         getHolder().addCallback(this);
 
@@ -83,8 +90,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     Player player;
 
-    int ScreenHeight;
-    int ScreenWidth;
+    public int ScreenHeight;
+    public int ScreenWidth;
+    public int GameWindowHeight = 640;
+    public int GameWindowWidth = 1100;
     public float ScalingX;
     public float ScalingY;
 
@@ -104,11 +113,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
     public ArrayList<Bullet> destroybullets = new ArrayList<Bullet>();
 
+    public ArrayList<Enemy> EnemyList = new ArrayList<Enemy>();
+
     public void update()
     {
 
 
         player.Update();
+
+        for(Enemy enemy : EnemyList) enemy.Update();
 
         for(Bullet bullet : bullets)
         {
@@ -129,6 +142,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         player.Draw(canvas);
 
+        for(Enemy enemy : EnemyList) enemy.Draw(canvas);
         for(Bullet bullet : bullets) bullet.Draw(canvas);
 
 
@@ -202,7 +216,39 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
+    /*
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event)
+    {
+        switch(event.getKeyCode())
+        {
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+            {
+                if (event.getAction()==KeyEvent.ACTION_DOWN) Toast.makeText(getContext(),"DOWN", Toast.LENGTH_LONG).show();
+                break;
+            }
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            {
+                if (event.getAction()==KeyEvent.ACTION_DOWN) Toast.makeText(getContext(),"UP", Toast.LENGTH_LONG).show();
+                break;
+            }
+        }
+        */
 
+        /*
+        if(keyCode == KeyEvent.KEYCODE_VOLUME_UP)
+        {
+            Toast.makeText(getContext(),"UP", Toast.LENGTH_LONG).show();
+        }
+        else
+        if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
+        {
+            Toast.makeText(getContext(),"DOWN", Toast.LENGTH_LONG).show();
+        }
+        *//*
+        return true;
+    }
+    */
 
 
 
@@ -216,12 +262,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 if (event.values[0]>=-4 && event.values[0]<=4)
                 {
                     player.Shot(true);
-                    Toast.makeText(getContext(),"JO", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(),"JO", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
                     player.Shot(false);
-                    Toast.makeText(getContext(),"NE", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(),"NE", Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -231,4 +277,5 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         }
     };
+
 }

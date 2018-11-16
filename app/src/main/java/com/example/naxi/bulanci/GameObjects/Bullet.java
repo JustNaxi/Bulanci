@@ -1,5 +1,6 @@
 package com.example.naxi.bulanci.GameObjects;
 
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -19,13 +20,17 @@ public class Bullet
     private int skinCenterX = 2;
     private int skinCenterY = 2;
 
-    GameView gameView;
+    public IEntity Creator;
+
+    private GameView gameView;
 
 
-    Bitmap image;
+    private Bitmap image;
 
-    public Bullet(GameView gw ,int positionX, int positionY, int moveX, int moveY)
+
+    public Bullet(GameView gw ,int positionX, int positionY, int moveX, int moveY, IEntity creator)
     {
+        Creator = creator;
         gameView = gw;
         this.positionX=positionX;
         this.positionY=positionY;
