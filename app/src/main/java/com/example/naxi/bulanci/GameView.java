@@ -21,6 +21,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.naxi.bulanci.GameObjects.Bonus;
 import com.example.naxi.bulanci.GameObjects.Bullet;
 import com.example.naxi.bulanci.GameObjects.Enemy;
 import com.example.naxi.bulanci.GameObjects.Player;
@@ -45,6 +46,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         EnemyList.add(new Enemy(this));
         EnemyList.add(new Enemy(this));
         EnemyList.add(new Enemy(this));
+
+
+
+        Bonuses.add(new Bonus(this));
+        Bonuses.add(new Bonus(this));
+        Bonuses.add(new Bonus(this));
+        Bonuses.add(new Bonus(this));
+        Bonuses.add(new Bonus(this));
+        Bonuses.add(new Bonus(this));
+        Bonuses.add(new Bonus(this));
+        Bonuses.add(new Bonus(this));
+        Bonuses.add(new Bonus(this));
+
+
 
         getHolder().addCallback(this);
 
@@ -88,7 +103,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
 
-    Player player;
+    public Player player;
 
     public int ScreenHeight;
     public int ScreenWidth;
@@ -113,6 +128,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
     public ArrayList<Bullet> destroybullets = new ArrayList<Bullet>();
 
+    public ArrayList<Bonus> Bonuses = new ArrayList<Bonus>();
+    public ArrayList<Bonus> DestroyBonuses = new ArrayList<Bonus>();
+
     public ArrayList<Enemy> EnemyList = new ArrayList<Enemy>();
 
     public void update()
@@ -122,6 +140,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         player.Update();
 
         for(Enemy enemy : EnemyList) enemy.Update();
+
+        for(Bonus bonus : Bonuses) bonus.Update();
+        for(Bonus bonus : DestroyBonuses) Bonuses.remove(bonus);
 
         for(Bullet bullet : bullets)
         {
@@ -144,6 +165,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         for(Enemy enemy : EnemyList) enemy.Draw(canvas);
         for(Bullet bullet : bullets) bullet.Draw(canvas);
+        for(Bonus bonus : Bonuses) bonus.Draw(canvas);
 
 
         /*

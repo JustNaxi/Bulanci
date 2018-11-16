@@ -21,14 +21,14 @@ import java.util.Random;
 
 public class Enemy implements IEntity
 {
-    GameView GameView;
+    private GameView GameView;
 
-    private IGun gun;
+    public IGun Gun;
 
     private int Kills = 0;
     private int Deaths = 0;
-    private int PositionX = 50;
-    private int PositionY = 50;
+    public int PositionX = 50;
+    public int PositionY = 50;
 
     private boolean Shotting = false;
     private boolean Moving = false;
@@ -42,7 +42,7 @@ public class Enemy implements IEntity
 
     private Paint EnemyColor;
 
-    private Rect CollisionMask = new Rect(-37,-20,37,20);
+    public Rect CollisionMask = new Rect(-37,-20,37,20);
 
 
     private Bitmap[] Images;
@@ -70,10 +70,20 @@ public class Enemy implements IEntity
     {
         switch(new Random().nextInt(3))
         {
-            case 0: gun = new GunPistol(GameView, this); break;
-            case 1: gun = new GunM4(GameView, this); break;
-            case 3: gun = new GunShotgun(GameView, this); break;
-            default : gun = new GunShotgun(GameView, this);break;
+            case 0: Gun = new GunPistol(GameView, this); break;
+            case 1: Gun = new GunM4(GameView, this); break;
+            case 3: Gun = new GunShotgun(GameView, this); break;
+            default : Gun = new GunShotgun(GameView, this);break;
+        }
+    }
+
+    public void SetGun(int i)
+    {
+        switch(i)
+        {
+            case 0: Gun = new GunShotgun(GameView, this); break;
+            case 1: Gun = new GunM4(GameView, this); break;
+            default: Gun = new GunPistol(GameView, this); break;
         }
     }
 
@@ -106,8 +116,8 @@ public class Enemy implements IEntity
     private void Respawn()
     {
         Random rm = new Random();
-        PositionX = rm.nextInt(1000+50);
-        PositionY = rm.nextInt(500)+50;
+        PositionX = rm.nextInt(GameView.GameWindowWidth-100)+50;
+        PositionY = rm.nextInt(GameView.GameWindowHeight-100)+50;
     }
 
 
@@ -153,7 +163,7 @@ public class Enemy implements IEntity
     {
         canvas.drawBitmap(Images[ImageDirection], null, new Rect((int)((PositionX-SkinCenterX)*GameView.ScalingX),(int)((PositionY-SkinCenterY)*GameView.ScalingY),(int)(((PositionX-SkinCenterX)+Images[ImageDirection].getWidth())*GameView.ScalingX), (int)(((PositionY-SkinCenterY)+Images[ImageDirection].getHeight())*GameView.ScalingY)), EnemyColor);
 
-        gun.Draw(canvas, PositionX, PositionY, ImageDirection);
+        Gun.Draw(canvas, PositionX, PositionY, ImageDirection);
     }
 
 }

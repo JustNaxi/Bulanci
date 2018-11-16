@@ -29,12 +29,12 @@ public class Player implements IEntity {
 
     GameView GameView;
 
-    private IGun gun;
+    public IGun Gun;
 
     private int Kills = 0;
     private int Deaths = 0;
-    private int PositionX = 50;
-    private int PositionY = 50;
+    public int PositionX = 50;
+    public int PositionY = 50;
 
     private boolean Shotting = false;
     private boolean Moving = false;
@@ -45,7 +45,7 @@ public class Player implements IEntity {
     private int SkinCenterX = 32;
     private int SkinCenterY = 47;
 
-    private Rect CollisionMask = new Rect(-37,-20,37,20);
+    public Rect CollisionMask = new Rect(-37,-20,37,20);
 
 
     private Bitmap[] Images;
@@ -62,7 +62,7 @@ public class Player implements IEntity {
         ColorFilter filter = new PorterDuffColorFilter(Color.argb(100,255,0,0), PorterDuff.Mode.SRC_ATOP); //Mode MULTIPLY dělá částečnou neviditelnost
         PlayerPaint.setColorFilter(filter);
 
-        gun = new GunShotgun(gw, this);
+        Gun = new GunShotgun(gw, this);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
@@ -86,8 +86,8 @@ public class Player implements IEntity {
             }
         }
 
-        gun.Update(PositionX, PositionY, MoveX, MoveY);
-        if (Shotting) {gun.Shot(PositionX, PositionY, MoveX, MoveY);}
+        Gun.Update(PositionX, PositionY, MoveX, MoveY);
+        if (Shotting) {Gun.Shot(PositionX, PositionY, MoveX, MoveY);}
 
         CheckBulletCollision();
     }
@@ -110,6 +110,16 @@ public class Player implements IEntity {
         Deaths++;
         Respawn();
 
+    }
+
+    public void SetGun(int i)
+    {
+        switch(i)
+        {
+            case 0: Gun = new GunShotgun(GameView, this); break;
+            case 1: Gun = new GunM4(GameView, this); break;
+            default: Gun = new GunPistol(GameView, this); break;
+        }
     }
 
     public void GiveKill()
@@ -153,7 +163,7 @@ public class Player implements IEntity {
 
         canvas.drawBitmap(Images[ImageDirection], null, new Rect((int)((PositionX-SkinCenterX)*GameView.ScalingX),(int)((PositionY-SkinCenterY)*GameView.ScalingY),(int)(((PositionX-SkinCenterX)+Images[ImageDirection].getWidth())*GameView.ScalingX), (int)(((PositionY-SkinCenterY)+Images[ImageDirection].getHeight())*GameView.ScalingY)), PlayerPaint);
 
-        gun.Draw(canvas, PositionX, PositionY, ImageDirection);
+        Gun.Draw(canvas, PositionX, PositionY, ImageDirection);
 
         Paint border = new Paint();
         border.setColor(Color.WHITE);
