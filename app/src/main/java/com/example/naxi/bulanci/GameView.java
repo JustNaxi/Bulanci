@@ -15,7 +15,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import com.example.naxi.bulanci.GameObjects.Bullet;
 import com.example.naxi.bulanci.GameObjects.Player;
+
+import java.util.ArrayList;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -86,8 +89,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
+    public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+    public ArrayList<Bullet> destroybullets = new ArrayList<Bullet>();
 
+    public void update()
+    {
+        player.Update();
 
+        for(Bullet bullet : bullets)
+        {
+            bullet.Update();
+            if ((bullet.positionX>1500)||(bullet.positionX<0)||(bullet.positionY>1500)||(bullet.positionY<0)) destroybullets.add(bullet);
+        }
+
+        for(Bullet bullet : destroybullets) bullets.remove(bullet);
+        destroybullets.clear();
+
+    }
 
 
     @Override
@@ -97,17 +115,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         player.Draw(canvas);
 
+        for(Bullet bullet : bullets) bullet.Draw(canvas);
+
+
+        /*
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setTextSize(25);
 
         canvas.drawText(ScalingX+"  "+ScalingY,100,100,paint);
-    }
-
-    public void update()
-    {
-        player.Update();
+        */
     }
 
 

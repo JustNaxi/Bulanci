@@ -31,7 +31,6 @@ public class GameLoop extends Thread {
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder) {
-                    Log.d("screen", canvas.getHeight()+" "+canvas.getWidth());
                     this.GameView.update();
                     this.GameView.draw(canvas);
                 }
@@ -60,7 +59,8 @@ public class GameLoop extends Thread {
             long waitTime = loopTime - endTime;
 
             try {
-                this.sleep(waitTime);
+                if (waitTime>0)
+                    this.sleep(waitTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

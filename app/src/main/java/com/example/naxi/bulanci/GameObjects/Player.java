@@ -4,10 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
+import com.example.naxi.bulanci.GameObjects.Guns.GunPistol;
 import com.example.naxi.bulanci.GameObjects.Guns.IGun;
 import com.example.naxi.bulanci.GameView;
 import com.example.naxi.bulanci.R;
@@ -22,14 +26,22 @@ public class Player {
 
     GameView gameView;
 
+    private IGun gun = new GunPistol();
+
     private int kills = 0;
     private int deaths = 0;
     private int positionX = 50;
     private int positionY = 50;
 
     private boolean moving = false;
-    private int moveX = 0;
+    private int moveX = 1;
     private int moveY = 0;
+
+
+    private int skinCenterX = 32;
+    private int skinCenterY = 47;
+
+    private Rect CollisionMask = new Rect(-37,-20,37,20);
 
 
     Bitmap[] image;
@@ -61,6 +73,9 @@ public class Player {
             positionX += moveX*5;
             positionY += moveY*5;
         }
+
+        gun.Update();
+        gun.Shot(gameView,positionX, positionY,moveX, moveY);
     }
 
 
@@ -82,8 +97,18 @@ public class Player {
 
     public void Draw(Canvas canvas)
     {
-        canvas.drawBitmap(image[imageDirection], null, new Rect(positionX, positionY,positionX+(int)(image[imageDirection].getWidth()*gameView.ScalingX), positionY+(int)(image[imageDirection].getHeight()*gameView.ScalingY)), null);
+        Paint paint = new Paint();
+        ColorFilter filter = new PorterDuffColorFilter(Color.argb(100,255,255,255), PorterDuff.Mode.SRC_ATOP);
+        paint.setColorFilter(filter);
 
+        canvas.drawBitmap(image[imageDirection], null, new Rect((int)((positionX-skinCenterX)*gameView.ScalingX),(int)((positionY-skinCenterY)*gameView.ScalingY),(int)(((positionX-skinCenterX)+image[imageDirection].getWidth())*gameView.ScalingX), (int)(((positionY-skinCenterY)+image[imageDirection].getHeight())*gameView.ScalingY)), paint);
+
+
+        Paint border = new Paint();
+        border.setColor(Color.WHITE);
+        border.setStrokeWidth(5);
+        border.setStyle(Paint.Style.STROKE);
+        //canvas.drawRect(new Rect((int)(positionX*gameView.ScalingX),(int)(positionY*gameView.ScalingY),(int)((positionX+image[imageDirection].getWidth())*gameView.ScalingX), (int)((positionY+image[imageDirection].getHeight())*gameView.ScalingY)),border);
 
     }
 
