@@ -62,7 +62,7 @@ public class Player implements IEntity {
         ColorFilter filter = new PorterDuffColorFilter(Color.argb(100,255,0,0), PorterDuff.Mode.SRC_ATOP); //Mode MULTIPLY dělá částečnou neviditelnost
         PlayerPaint.setColorFilter(filter);
 
-        Gun = new GunShotgun(gw, this);
+        Gun = new GunPistol(gw, this);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
@@ -87,7 +87,10 @@ public class Player implements IEntity {
         }
 
         Gun.Update(PositionX, PositionY, MoveX, MoveY);
-        if (Shotting) {Gun.Shot(PositionX, PositionY, MoveX, MoveY);}
+        if (Shotting)
+        {
+            if (Gun.Shot(PositionX, PositionY, MoveX, MoveY)) Gun = new GunPistol(GameView,this);
+        }
 
         CheckBulletCollision();
     }

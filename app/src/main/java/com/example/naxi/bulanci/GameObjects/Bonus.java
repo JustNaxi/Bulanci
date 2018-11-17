@@ -61,10 +61,10 @@ public class Bonus
         boolean is = false;
         for(Enemy enemy : GameView.EnemyList)
         {
-            if ((PositionX - BonusCenterX > enemy.PositionX + enemy.CollisionMask.left)&&(PositionX - BonusCenterX < enemy.PositionX + enemy.CollisionMask.right)&&(PositionY - BonusCenterY > enemy.PositionY + enemy.CollisionMask.top)&&(PositionY - BonusCenterY < enemy.PositionY + enemy.CollisionMask.bottom))
+            if ((PositionX> enemy.PositionX + enemy.CollisionMask.left)&&(PositionX < enemy.PositionX + enemy.CollisionMask.right)&&(PositionY > enemy.PositionY + enemy.CollisionMask.top)&&(PositionY< enemy.PositionY + enemy.CollisionMask.bottom))
             {
                 enemy.SetGun(BonusType);
-                GameView.DestroyBonuses.remove(this);
+                GameView.DestroyBonuses.add(this);
                 is = true;
                 break;
             }
@@ -72,10 +72,11 @@ public class Bonus
 
         if (!is)
         {
-            if ((PositionX - BonusCenterX > GameView.player.PositionX + GameView.player.CollisionMask.left)&&(PositionX - BonusCenterX < GameView.player.PositionX + GameView.player.CollisionMask.right)&&(PositionY - BonusCenterY > GameView.player.PositionY + GameView.player.CollisionMask.top)&&(PositionY - BonusCenterY < GameView.player.PositionY + GameView.player.CollisionMask.bottom))
+            //if ((PositionX > GameView.player.PositionX + GameView.player.CollisionMask.left)&&(PositionX < GameView.player.PositionX + GameView.player.CollisionMask.right)&&(PositionY > GameView.player.PositionY + GameView.player.CollisionMask.top)&&(PositionY < GameView.player.PositionY + GameView.player.CollisionMask.bottom))
+            if ((PositionX> GameView.player.PositionX + GameView.player.CollisionMask.left)&&(PositionX < GameView.player.PositionX + GameView.player.CollisionMask.right)&&(PositionY > GameView.player.PositionY + GameView.player.CollisionMask.top)&&(PositionY< GameView.player.PositionY + GameView.player.CollisionMask.bottom))
             {
                 GameView.player.SetGun(BonusType);
-                GameView.DestroyBonuses.remove(this);
+                GameView.DestroyBonuses.add(this);
             }
         }
     }
