@@ -32,13 +32,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     GameLoop loop;
     Sensor proximitySensor;
+    GameActivity GameActivity;
+    GameController GameController;
 
-    public GameView(Context context)
+    public GameView(GameActivity ga)
     {
-        super(context);
+        super(ga);
         Initialization();
+        GameActivity=ga;
+        GameController = new GameController(this, 30*60*2);
 
-        SensorManager sm = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
+        SensorManager sm = (SensorManager)ga.getSystemService(Context.SENSOR_SERVICE);
         proximitySensor = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         sm.registerListener(sel,proximitySensor,SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -48,16 +52,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         EnemyList.add(new Enemy(this));
 
 
-
-        Bonuses.add(new Bonus(this));
-        Bonuses.add(new Bonus(this));
-        Bonuses.add(new Bonus(this));
-        Bonuses.add(new Bonus(this));
-        Bonuses.add(new Bonus(this));
-        Bonuses.add(new Bonus(this));
-        Bonuses.add(new Bonus(this));
-        Bonuses.add(new Bonus(this));
-        Bonuses.add(new Bonus(this));
 
 
 
@@ -151,6 +145,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         for(Bullet bullet : destroybullets) bullets.remove(bullet);
+
+        GameController.Update();
+
         destroybullets.clear();
 
     }
@@ -235,6 +232,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         }
         return super.onTouchEvent(event);
+    }
+
+
+    public void EndGame()
+    {
+        GameActivity.finish();
     }
 
 
