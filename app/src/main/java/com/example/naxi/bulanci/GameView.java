@@ -12,6 +12,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -39,17 +40,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     {
         super(ga);
         Initialization();
+
+        Bundle pack = ga.getIntent().getExtras();
+        //pack.getInt();
+
         GameActivity=ga;
-        GameController = new GameController(this, 30*60*2);
+        GameController = new GameController(this, pack.getInt("time",20)*30);
+
+
 
         SensorManager sm = (SensorManager)ga.getSystemService(Context.SENSOR_SERVICE);
         proximitySensor = sm.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         sm.registerListener(sel,proximitySensor,SensorManager.SENSOR_DELAY_NORMAL);
 
 
-        EnemyList.add(new Enemy(this));
-        EnemyList.add(new Enemy(this));
-        EnemyList.add(new Enemy(this));
+        for (int i = 0; i<pack.getInt("enemyCount",3);i++)
+            EnemyList.add(new Enemy(this));
 
 
 
