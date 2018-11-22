@@ -42,7 +42,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         Initialization();
 
         Bundle pack = ga.getIntent().getExtras();
-        //pack.getInt();
 
         GameActivity=ga;
         GameController = new GameController(this, pack.getInt("time",20)*30);
@@ -56,6 +55,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         for (int i = 0; i<pack.getInt("enemyCount",3);i++)
             EnemyList.add(new Enemy(this));
+
+        player = new Player(this, pack.getInt("colorR", 0),pack.getInt("colorG", 0),pack.getInt("colorB", 0));
 
 
 
@@ -115,13 +116,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private void Initialization()
     {
 
+        //Bundle pack = GameActivity.getIntent().getExtras();
         ScreenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         ScreenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         ScalingX = ScreenWidth / 1100f;
         ScalingY = ScreenHeight / 640f;
 
-        player = new Player(this);
+        //player = new Player(this, pack.getInt("colorR", 0),pack.getInt("colorG", 0),pack.getInt("colorB", 0));
 
     }
 

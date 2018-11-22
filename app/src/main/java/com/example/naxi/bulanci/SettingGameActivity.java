@@ -2,6 +2,7 @@ package com.example.naxi.bulanci;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
@@ -29,7 +30,8 @@ public class SettingGameActivity extends Activity {
     EditText Time;
     EditText EnemyCount;
 
-    Paint paint;
+    SharedPreferences mySharedPref;
+    SharedPreferences.Editor mySharedEditor;
 
 
 
@@ -51,6 +53,17 @@ public class SettingGameActivity extends Activity {
         Name = findViewById(R.id.editTextName);
         Time = findViewById(R.id.editTextTime);
         EnemyCount = findViewById(R.id.editTextEnemyCounter);
+
+        mySharedPref = getSharedPreferences("lastSettings", this.MODE_PRIVATE);
+        Time.setText(String.valueOf(mySharedPref.getInt("time", 120)));
+        Name.setText(mySharedPref.getString("name", "Anonym"));
+        EnemyCount.setText(String.valueOf(mySharedPref.getInt("enemyCount", 3)));
+
+        seekBarRed.setProgress(mySharedPref.getInt("colorR", 0));
+        seekBarGreen.setProgress(mySharedPref.getInt("colorG", 0));
+        seekBarBlue.setProgress(mySharedPref.getInt("colorB", 0));
+
+        SeekBarListener.onProgressChanged(seekBarBlue, 10, true);
 
     }
 
@@ -80,6 +93,15 @@ public class SettingGameActivity extends Activity {
         pack.putInt("time",time);
         pack.putString("name", Name.getText().toString());
         pack.putInt("enemyCount",enemyCount);
+
+        mySharedEditor = mySharedPref.edit();
+        mySharedEditor.putInt("colorR", seekBarRed.getProgress());
+        mySharedEditor.putInt("colorG", seekBarGreen.getProgress());
+        mySharedEditor.putInt("colorB", seekBarBlue.getProgress());
+        mySharedEditor.putInt("time", time);
+        mySharedEditor.putInt("enemyCount", enemyCount);
+        mySharedEditor.putString("name", Name.getText().toString());
+        mySharedEditor.apply();
 
 
 

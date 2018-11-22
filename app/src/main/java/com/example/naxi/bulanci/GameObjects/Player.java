@@ -54,12 +54,12 @@ public class Player implements IEntity {
     private Paint PlayerPaint;
 
 
-    public Player(GameView gw)
+    public Player(GameView gw, int colorRed, int colorGreen, int colorBlue)
     {
         GameView = gw;
 
         PlayerPaint = new Paint();
-        ColorFilter filter = new PorterDuffColorFilter(Color.argb(100,255,0,0), PorterDuff.Mode.SRC_ATOP); //Mode MULTIPLY dělá částečnou neviditelnost
+        ColorFilter filter = new PorterDuffColorFilter(Color.argb(100,colorRed,colorGreen,colorBlue), PorterDuff.Mode.SRC_ATOP); //Mode MULTIPLY dělá částečnou neviditelnost
         PlayerPaint.setColorFilter(filter);
 
         Gun = new GunPistol(gw, this);
