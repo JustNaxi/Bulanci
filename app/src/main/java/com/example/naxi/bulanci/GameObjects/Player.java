@@ -83,6 +83,25 @@ public class Player implements IEntity {
             {
                 PositionX += MoveX * 5;
                 PositionY += MoveY * 5;
+
+                for(Rect i : GameView.map.collisions)
+                {
+                    if(
+                    (PositionX-SkinCenterX<i.right)&&
+                    (PositionX-SkinCenterX+Images[1].getWidth()>i.left)&&
+                    (PositionY-SkinCenterY<i.bottom)&&
+                    (PositionY-SkinCenterY+Images[1].getHeight()>i.top)
+                            )
+                    {
+                        PositionX -= MoveX * 5;
+                        PositionY -= MoveY * 5;
+                        break;
+                    }
+
+
+                }
+
+
             }
         }
 

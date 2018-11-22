@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.naxi.bulanci.GameObjects.Bonus;
 import com.example.naxi.bulanci.GameObjects.Bullet;
 import com.example.naxi.bulanci.GameObjects.Enemy;
+import com.example.naxi.bulanci.GameObjects.MyMap;
 import com.example.naxi.bulanci.GameObjects.Player;
 
 import java.util.ArrayList;
@@ -36,15 +37,37 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     GameActivity GameActivity;
     GameController GameController;
 
+    public MyMap map;
+    public Player player;
+
+    public int ScreenHeight;
+    public int ScreenWidth;
+    public int GameWindowHeight = 640;
+    public int GameWindowWidth = 1100;
+    public float ScalingX;
+    public float ScalingY;
+
+
+    private Bitmap point;
+    private boolean touch = false;
+
     public GameView(GameActivity ga)
     {
         super(ga);
         Initialization();
 
+        map = new MyMap("mapa1", this);
+
         Bundle pack = ga.getIntent().getExtras();
 
         GameActivity=ga;
         GameController = new GameController(this, pack.getInt("time",20)*30);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
+
+
+        point = BitmapFactory.decodeResource(this.getResources(), R.drawable.point, options);
 
 
 
@@ -101,29 +124,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
-
-
-
-    public Player player;
-
-    public int ScreenHeight;
-    public int ScreenWidth;
-    public int GameWindowHeight = 640;
-    public int GameWindowWidth = 1100;
-    public float ScalingX;
-    public float ScalingY;
-
     private void Initialization()
     {
 
-        //Bundle pack = GameActivity.getIntent().getExtras();
         ScreenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         ScreenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         ScalingX = ScreenWidth / 1100f;
         ScalingY = ScreenHeight / 640f;
 
-        //player = new Player(this, pack.getInt("colorR", 0),pack.getInt("colorG", 0),pack.getInt("colorB", 0));
 
     }
 
@@ -166,11 +175,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     {
         super.draw(canvas);
 
+        map.DrawBackground(canvas);
         player.Draw(canvas);
 
         for(Enemy enemy : EnemyList) enemy.Draw(canvas);
         for(Bullet bullet : bullets) bullet.Draw(canvas);
         for(Bonus bonus : Bonuses) bonus.Draw(canvas);
+
+
+        map.DrawForeground(canvas);
+
+        if (touch)
+            canvas.drawBitmap(point, null, new Rect((int)(xDown),(int)(yDown),(int)(xDown+20), (int)(yDown+20)), null);
+
 
 
         /*
@@ -203,6 +220,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 xDown = event.getX();
                 yDown = event.getY();
 
+                //Toast.makeText(GameActivity,xDown+"  "+yDown, Toast.LENGTH_LONG).show();
+
                 return true;
             }
             case MotionEvent.ACTION_MOVE:
@@ -225,16 +244,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                             player.SetDirection(0, 1);
                     }
                     player.Move(true);
+                    touch = true;
 
                 }
                 else
                     player.Move(false);
+                    touch=true;
 
                 break;
             }
             case MotionEvent.ACTION_UP:
             {
                 player.Move(false);
+                touch=false;
                 break;
             }
 
@@ -249,40 +271,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
 
-    /*
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event)
-    {
-        switch(event.getKeyCode())
-        {
-            case KeyEvent.KEYCODE_VOLUME_DOWN:
-            {
-                if (event.getAction()==KeyEvent.ACTION_DOWN) Toast.makeText(getContext(),"DOWN", Toast.LENGTH_LONG).show();
-                break;
-            }
-            case KeyEvent.KEYCODE_VOLUME_UP:
-            {
-                if (event.getAction()==KeyEvent.ACTION_DOWN) Toast.makeText(getContext(),"UP", Toast.LENGTH_LONG).show();
-                break;
-            }
-        }
-        */
-
-        /*
-        if(keyCode == KeyEvent.KEYCODE_VOLUME_UP)
-        {
-            Toast.makeText(getContext(),"UP", Toast.LENGTH_LONG).show();
-        }
-        else
-        if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
-        {
-            Toast.makeText(getContext(),"DOWN", Toast.LENGTH_LONG).show();
-        }
-        *//*
-        return true;
-    }
-    */
-
 
 
 
@@ -295,12 +283,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 if (event.values[0]>=-4 && event.values[0]<=4)
                 {
                     player.Shot(true);
-                    //Toast.makeText(getContext(),"JO", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
                     player.Shot(false);
-                    //Toast.makeText(getContext(),"NE", Toast.LENGTH_LONG).show();
                 }
             }
         }
