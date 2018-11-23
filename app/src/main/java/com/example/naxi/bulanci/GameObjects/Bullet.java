@@ -22,7 +22,7 @@ public class Bullet
 
     public IEntity Creator;
 
-    private GameView gameView;
+    private GameView GameView;
 
 
     private Bitmap image;
@@ -31,7 +31,7 @@ public class Bullet
     public Bullet(GameView gw ,int positionX, int positionY, int moveX, int moveY, IEntity creator)
     {
         Creator = creator;
-        gameView = gw;
+        GameView = gw;
         this.positionX=positionX;
         this.positionY=positionY;
 
@@ -50,11 +50,22 @@ public class Bullet
     {
         positionX+=moveX;
         positionY+=moveY;
+
+        for (Rect i : GameView.map.collisions)
+        {
+            if ((positionX>i.left)&&(positionX<i.right)&&(positionY>i.top)&&(positionX<i.bottom))
+            {
+                GameView.destroybullets.add(this);
+                break;
+            }
+
+
+        }
     }
 
     public void Draw(Canvas canvas)
     {
-        canvas.drawBitmap(image, null, new Rect((int)((positionX-skinCenterX)*gameView.ScalingX),(int)((positionY-skinCenterY)*gameView.ScalingY),(int)(((positionX-skinCenterX)+image.getWidth())*gameView.ScalingX), (int)(((positionY-skinCenterY)+image.getHeight())*gameView.ScalingY)), null);
+        canvas.drawBitmap(image, null, new Rect((int)((positionX-skinCenterX)*GameView.ScalingX),(int)((positionY-skinCenterY)*GameView.ScalingY),(int)(((positionX-skinCenterX)+image.getWidth())*GameView.ScalingX), (int)(((positionY-skinCenterY)+image.getHeight())*GameView.ScalingY)), null);
     }
 
 

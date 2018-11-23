@@ -27,9 +27,6 @@
             android:name=".SettingGameActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".GameView"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".MapListActivity"
             android:screenOrientation="landscape" />
     </application>

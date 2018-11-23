@@ -27,7 +27,7 @@ public class Bonus
     public Bonus(GameView gw)
     {
         GameView = gw;
-        Respawn();
+
 
         Random rm = new Random();
 
@@ -40,14 +40,38 @@ public class Bonus
             case 1: BonusType = 1; Image = BitmapFactory.decodeResource(gw.getResources(), R.drawable.m4bonus, options); break;
         }
 
+        Respawn();
+
 
     }
 
     private void Respawn()
     {
         Random rm = new Random();
-        PositionX = rm.nextInt(GameView.GameWindowWidth-100)+50;
-        PositionY = rm.nextInt(GameView.GameWindowHeight-100)+50;
+
+        boolean isfree = false;
+        while(!isfree)
+        {
+            PositionX = rm.nextInt(GameView.GameWindowWidth-100)+50;
+            PositionY = rm.nextInt(GameView.GameWindowHeight-100)+50;
+            isfree = true;
+
+            for (Rect i : GameView.map.collisions)
+            {
+                if (
+                        (PositionX - BonusCenterX < i.right) &&
+                                (PositionX - BonusCenterX + Image.getWidth() > i.left) &&
+                                (PositionY - BonusCenterY < i.bottom) &&
+                                (PositionY - BonusCenterY + Image.getHeight() > i.top)
+                        )
+                {
+                    isfree=false;
+                    break;
+                }
+
+
+            }
+        }
     }
 
 
