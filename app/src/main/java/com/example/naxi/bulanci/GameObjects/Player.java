@@ -59,7 +59,7 @@ public class Player implements IEntity {
         GameView = gw;
 
         PlayerPaint = new Paint();
-        ColorFilter filter = new PorterDuffColorFilter(Color.argb(100,colorRed,colorGreen,colorBlue), PorterDuff.Mode.SRC_ATOP); //Mode MULTIPLY dělá částečnou neviditelnost
+        ColorFilter filter = new PorterDuffColorFilter(Color.argb(255,colorRed,colorGreen,colorBlue), PorterDuff.Mode.MULTIPLY); //Mode MULTIPLY dělá částečnou neviditelnost
         PlayerPaint.setColorFilter(filter);
 
         Gun = new GunPistol(gw, this);
@@ -152,8 +152,30 @@ public class Player implements IEntity {
     private void Respawn()
     {
         Random rm = new Random();
-        PositionX = rm.nextInt(GameView.GameWindowWidth-100)+50;
-        PositionY = rm.nextInt(GameView.GameWindowHeight-100)+50;
+
+        boolean isfree = false;
+        while(!isfree)
+        {
+            PositionX = rm.nextInt(GameView.GameWindowWidth-100)+50;
+            PositionY = rm.nextInt(GameView.GameWindowHeight-100)+50;
+            isfree = true;
+
+            for (Rect i : GameView.map.collisions)
+            {
+                if (
+                        (PositionX - SkinCenterX < i.right) &&
+                                (PositionX - SkinCenterX + Images[1].getWidth() > i.left) &&
+                                (PositionY - SkinCenterY < i.bottom) &&
+                                (PositionY - SkinCenterY + Images[1].getHeight() > i.top)
+                        )
+                {
+                    isfree=false;
+                    break;
+                }
+
+
+            }
+        }
     }
 
 

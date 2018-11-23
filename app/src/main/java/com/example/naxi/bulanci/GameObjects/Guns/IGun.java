@@ -6,6 +6,7 @@ import com.example.naxi.bulanci.GameView;
 
 public interface IGun {
 
+
     public boolean Shot(int positionX, int positionY, int moveX, int moveY);
 
     public void Update(int positionX, int positionY, int moveX, int moveY);

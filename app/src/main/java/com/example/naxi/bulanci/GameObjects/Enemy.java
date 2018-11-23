@@ -35,6 +35,7 @@ public class Enemy implements IEntity
     private int MoveX = 1;
     private int MoveY = 0;
     private int Time = 0;
+    private int RandomShotDelay = new Random().nextInt(30*5)+30*2;
 
 
     private int SkinCenterX = 32;
@@ -47,12 +48,12 @@ public class Enemy implements IEntity
 
     private Bitmap[] Images;
     private int ImageDirection = 0;
+    private int myGun;
 
     public Enemy(GameView gw)
     {
         GameView = gw;
         RandomGun();
-        Respawn();
         ChangeDirection();
         ChangeColor();
 
@@ -64,6 +65,8 @@ public class Enemy implements IEntity
         Images[1] = BitmapFactory.decodeResource(gw.getResources(), R.drawable.bulanekup, options);
         Images[2] = BitmapFactory.decodeResource(gw.getResources(), R.drawable.bulanekleft, options);
         Images[3] = BitmapFactory.decodeResource(gw.getResources(), R.drawable.bulanekright, options);
+
+        Respawn();
     }
 
     private void RandomGun()
@@ -79,6 +82,7 @@ public class Enemy implements IEntity
 
     public void SetGun(int i)
     {
+        myGun=i;
         switch(i)
         {
             case 0: Gun = new GunShotgun(GameView, this); break;
@@ -116,8 +120,30 @@ public class Enemy implements IEntity
     private void Respawn()
     {
         Random rm = new Random();
-        PositionX = rm.nextInt(GameView.GameWindowWidth-100)+50;
-        PositionY = rm.nextInt(GameView.GameWindowHeight-100)+50;
+
+        boolean isfree = false;
+        while(!isfree)
+        {
+            PositionX = rm.nextInt(GameView.GameWindowWidth-100)+50;
+            PositionY = rm.nextInt(GameView.GameWindowHeight-100)+50;
+            isfree = true;
+
+            for (Rect i : GameView.map.collisions)
+            {
+                if (
+                        (PositionX - SkinCenterX < i.right) &&
+                        (PositionX - SkinCenterX + Images[1].getWidth() > i.left) &&
+                        (PositionY - SkinCenterY < i.bottom) &&
+                        (PositionY - SkinCenterY + Images[1].getHeight() > i.top)
+                )
+                {
+                    isfree=false;
+                    break;
+                }
+
+
+            }
+        }
     }
 
 
@@ -125,10 +151,36 @@ public class Enemy implements IEntity
     {
         if ((PositionX+MoveX*5>10) && (PositionX+MoveX*5<GameView.GameWindowWidth-10) && (PositionY+MoveY*5>10) && (PositionY+MoveY*5<GameView.GameWindowHeight-10))
         {
-            PositionX += MoveX * 5;
-            PositionY += MoveY * 5;
+            PositionX += MoveX * 4;
+            PositionY += MoveY * 4;
+
+            for(Rect i : GameView.map.collisions)
+            {
+                if(
+                        (PositionX-SkinCenterX<i.right)&&
+                        (PositionX-SkinCenterX+Images[1].getWidth()>i.left)&&
+                        (PositionY-SkinCenterY<i.bottom)&&
+                        (PositionY-SkinCenterY+Images[1].getHeight()>i.top)
+                )
+                {
+                    PositionX -= MoveX * 4;
+                    PositionY -= MoveY * 4;
+                    ChangeDirection();
+                    break;
+                }
+
+
+            }
+
         }
 
+        Gun.Update(PositionX, PositionY, MoveX, MoveY);
+        if (RandomShotDelay>0) {RandomShotDelay--;} else
+            {
+                //if (Gun.Shot(PositionX, PositionY, MoveX, MoveY)) SetGun(myGun);
+                Gun.Shot(PositionX, PositionY, MoveX, MoveY);
+                RandomShotDelay=new Random().nextInt(30*5)+30*2;
+            }
         if (Time>0) {Time--;} else {ChangeDirection();}
 
         CheckBulletCollision();
@@ -154,8 +206,8 @@ public class Enemy implements IEntity
     private void ChangeColor()
     {
         EnemyColor = new Paint();
-        Random rn = new Random();
-        ColorFilter filter = new PorterDuffColorFilter(Color.argb(100,rn.nextInt(255),rn.nextInt(255),rn.nextInt(255)), PorterDuff.Mode.SRC_ATOP);
+        Random rn = new Random(); //SRC_ATOP
+        ColorFilter filter = new PorterDuffColorFilter(Color.argb(255,rn.nextInt(255),rn.nextInt(255),rn.nextInt(255)), PorterDuff.Mode.MULTIPLY);
         EnemyColor.setColorFilter(filter);
     }
 

@@ -1,32 +1,27 @@
 package com.example.naxi.bulanci;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.naxi.bulanci.GameObjects.Bonus;
 import com.example.naxi.bulanci.GameObjects.Bullet;
 import com.example.naxi.bulanci.GameObjects.Enemy;
 import com.example.naxi.bulanci.GameObjects.MyMap;
 import com.example.naxi.bulanci.GameObjects.Player;
+
 
 import java.util.ArrayList;
 
@@ -56,9 +51,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super(ga);
         Initialization();
 
-        map = new MyMap("mapa1", this);
+
 
         Bundle pack = ga.getIntent().getExtras();
+
+        map = new MyMap(pack.getString("mapName"), this);
 
         GameActivity=ga;
         GameController = new GameController(this, pack.getInt("time",20)*30);
@@ -296,5 +293,4 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         }
     };
-
 }

@@ -29,21 +29,10 @@ public class MainActivity extends Activity {
 
         }
 
-
-        String path = Environment.getExternalStorageDirectory().toString()+"/bulanci";
-        Log.d("Files", "Path: " + path);
-        File directory = new File(path);
-        File[] files = directory.listFiles();
-        Log.d("Files", "Size: "+ files.length);
-        for (int i = 0; i < files.length; i++)
-        {
-            Log.d("Files", "FileName:" + files[i].getName());
-        }
-
     }
 
     public void startGame(View view) {
-        Intent intent = new Intent(this,SettingGameActivity.class);
+        Intent intent = new Intent(this,MapListActivity.class);
         startActivity(intent);
     }
 }

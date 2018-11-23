@@ -33,12 +33,16 @@ public class SettingGameActivity extends Activity {
     SharedPreferences mySharedPref;
     SharedPreferences.Editor mySharedEditor;
 
+    String map;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_game);
+
+        map = getIntent().getStringExtra("mapName");
 
         seekBarRed = findViewById(R.id.seekBarRed);
         seekBarRed.setOnSeekBarChangeListener(SeekBarListener);
@@ -70,6 +74,7 @@ public class SettingGameActivity extends Activity {
     public void startGameClick(View view)
     {
         Bundle pack = new Bundle();
+        pack.putString("mapName",map);
         pack.putInt("colorR",seekBarRed.getProgress());
         pack.putInt("colorG",seekBarGreen.getProgress());
         pack.putInt("colorB",seekBarBlue.getProgress());
@@ -116,7 +121,7 @@ public class SettingGameActivity extends Activity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-            bulanekView.getDrawable().setColorFilter(Color.argb(100, seekBarRed.getProgress() ,seekBarGreen.getProgress(),seekBarBlue.getProgress()), PorterDuff.Mode.SRC_ATOP);
+            bulanekView.getDrawable().setColorFilter(Color.argb(255, seekBarRed.getProgress() ,seekBarGreen.getProgress(),seekBarBlue.getProgress()), PorterDuff.Mode.MULTIPLY);
         }
 
         @Override
