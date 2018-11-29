@@ -40,7 +40,7 @@ public class GameController
 
         if (NextBonusTime<=0)
         {
-            NextBonusTime = new Random().nextInt(30*30)+30*5;
+            NextBonusTime = new Random().nextInt(30*10)+30*5;
             GameView.Bonuses.add(new Bonus(GameView));
 
         }
