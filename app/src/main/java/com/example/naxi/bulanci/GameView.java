@@ -76,7 +76,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         for (int i = 0; i<pack.getInt("enemyCount",3);i++)
             EnemyList.add(new Enemy(this));
 
-        player = new Player(this, pack.getInt("colorR", 0),pack.getInt("colorG", 0),pack.getInt("colorB", 0));
+        player = new Player(this, pack.getInt("colorR", 0),pack.getInt("colorG", 0),pack.getInt("colorB", 0), pack.getString("name", "Bulik"));
 
 
 
@@ -186,6 +186,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawBitmap(point, null, new Rect((int)(xDown),(int)(yDown),(int)(xDown+20), (int)(yDown+20)), null);
 
 
+        player.DrawGUI(canvas);
 
         /*
         Paint paint = new Paint();

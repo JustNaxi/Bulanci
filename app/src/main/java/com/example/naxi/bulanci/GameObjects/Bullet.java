@@ -53,7 +53,7 @@ public class Bullet
 
         for (Rect i : GameView.map.collisions)
         {
-            if ((positionX>i.left)&&(positionX<i.right)&&(positionY>i.top)&&(positionX<i.bottom))
+            if ((positionX>i.left)&&(positionX<i.right)&&(positionY>i.top)&&(positionY<i.bottom))
             {
                 GameView.destroybullets.add(this);
                 break;

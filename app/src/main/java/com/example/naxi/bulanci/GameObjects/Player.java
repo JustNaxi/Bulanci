@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
 
 import com.example.naxi.bulanci.GameObjects.Guns.GunM4;
 import com.example.naxi.bulanci.GameObjects.Guns.GunPistol;
@@ -18,11 +17,6 @@ import com.example.naxi.bulanci.GameObjects.Guns.IGun;
 import com.example.naxi.bulanci.GameView;
 import com.example.naxi.bulanci.R;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Random;
 
 public class Player implements IEntity {
@@ -51,12 +45,17 @@ public class Player implements IEntity {
     private Bitmap[] Images;
     private int ImageDirection = 0;
 
+    private Bitmap bar;
+
     private Paint PlayerPaint;
 
+    private String Name;
 
-    public Player(GameView gw, int colorRed, int colorGreen, int colorBlue)
+
+    public Player(GameView gw, int colorRed, int colorGreen, int colorBlue, String name)
     {
         GameView = gw;
+        Name = name;
 
         PlayerPaint = new Paint();
         ColorFilter filter = new PorterDuffColorFilter(Color.argb(255,colorRed,colorGreen,colorBlue), PorterDuff.Mode.MULTIPLY); //Mode MULTIPLY dělá částečnou neviditelnost
@@ -72,6 +71,8 @@ public class Player implements IEntity {
         Images[1] = BitmapFactory.decodeResource(gw.getResources(), R.drawable.bulanekup, options);
         Images[2] = BitmapFactory.decodeResource(gw.getResources(), R.drawable.bulanekleft, options);
         Images[3] = BitmapFactory.decodeResource(gw.getResources(), R.drawable.bulanekright, options);
+
+        bar = BitmapFactory.decodeResource(gw.getResources(), R.drawable.barscore, options);
     }
 
 
@@ -109,6 +110,7 @@ public class Player implements IEntity {
         if (Shotting)
         {
             if (Gun.Shot(PositionX, PositionY, MoveX, MoveY)) Gun = new GunPistol(GameView,this);
+
         }
 
         CheckBulletCollision();
@@ -215,6 +217,27 @@ public class Player implements IEntity {
         border.setStyle(Paint.Style.STROKE);
         //canvas.drawRect(new Rect((int)(positionX*gameView.ScalingX),(int)(positionY*gameView.ScalingY),(int)((positionX+image[imageDirection].getWidth())*gameView.ScalingX), (int)((positionY+image[imageDirection].getHeight())*gameView.ScalingY)),border);
 
+    }
+
+    private int barPositionX = 10;
+    private int barPositionY = 640-78-10;
+
+    public void DrawGUI(Canvas canvas)
+    {
+
+        canvas.drawBitmap(bar, null, new Rect((int)((barPositionX)*GameView.ScalingX),(int)((barPositionY)*GameView.ScalingY),(int)(((barPositionX)+bar.getWidth())*GameView.ScalingX), (int)((barPositionY+bar.getHeight())*GameView.ScalingY)), null);
+
+        Gun.Draw(canvas, PositionX, PositionY, ImageDirection);
+
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setTextSize(30);
+
+        canvas.drawText(Name,(barPositionX+14)*GameView.ScalingX,(barPositionY+30)*GameView.ScalingY,paint);
+        canvas.drawText((Kills-Deaths)+"",(barPositionX+158)*GameView.ScalingX,(barPositionY+30)*GameView.ScalingY,paint);
+
+        canvas.drawText("Naboje: "+Gun.GetShotCount(),(barPositionX+42)*GameView.ScalingX,(barPositionY+62)*GameView.ScalingY,paint);
     }
 
 

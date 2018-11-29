@@ -60,7 +60,7 @@ public class SettingGameActivity extends Activity {
 
         mySharedPref = getSharedPreferences("lastSettings", this.MODE_PRIVATE);
         Time.setText(String.valueOf(mySharedPref.getInt("time", 120)));
-        Name.setText(mySharedPref.getString("name", "Anonym"));
+        Name.setText(mySharedPref.getString("name", "Bulik"));
         EnemyCount.setText(String.valueOf(mySharedPref.getInt("enemyCount", 3)));
 
         seekBarRed.setProgress(mySharedPref.getInt("colorR", 0));
