@@ -227,7 +227,6 @@ public class Player implements IEntity {
 
         canvas.drawBitmap(bar, null, new Rect((int)((barPositionX)*GameView.ScalingX),(int)((barPositionY)*GameView.ScalingY),(int)(((barPositionX)+bar.getWidth())*GameView.ScalingX), (int)((barPositionY+bar.getHeight())*GameView.ScalingY)), null);
 
-        Gun.Draw(canvas, PositionX, PositionY, ImageDirection);
 
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);

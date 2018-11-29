@@ -187,15 +187,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
         player.DrawGUI(canvas);
+        GameController.DrawGUI(canvas);
 
-        /*
-        Paint paint = new Paint();
-        paint.setColor(Color.WHITE);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
-        paint.setTextSize(25);
-
-        canvas.drawText(ScalingX+"  "+ScalingY,100,100,paint);
-        */
     }
 
 
