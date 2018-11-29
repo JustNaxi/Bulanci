@@ -2,6 +2,7 @@ package com.example.naxi.bulanci;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -46,6 +47,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Bitmap point;
     private boolean touch = false;
 
+    private Bundle pack;
+
     public GameView(GameActivity ga)
     {
         super(ga);
@@ -53,7 +56,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
 
-        Bundle pack = ga.getIntent().getExtras();
+        pack = ga.getIntent().getExtras();
 
         map = new MyMap(pack.getString("mapName"), this);
 
@@ -258,6 +261,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void EndGame()
     {
+        //GameLoop.running= false;
+        pack.putInt("kills",player.Kills);
+        pack.putInt("deaths",player.Deaths);
+
+        Intent intent = new Intent();
+        intent.putExtras(pack);
+        GameActivity.setResult(333, intent);
+
         GameActivity.finish();
     }
 

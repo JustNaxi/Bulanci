@@ -112,8 +112,8 @@ public class SettingGameActivity extends Activity {
 
         Intent intent = new Intent(this,GameActivity.class);
         intent.putExtras(pack);
-        startActivity(intent);
-        finish();
+        startActivityForResult(intent,333);//startActivity(intent);
+        //finish();
     }
 
 
@@ -134,6 +134,21 @@ public class SettingGameActivity extends Activity {
 
         }
     };
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 333)
+        {
+            Bundle pack = data.getExtras();
+            Intent intent = new Intent(this,ScoreActivity.class);
+            intent.putExtras(pack);
+            startActivity(intent);
+            finish();
+        }
+    }
 
 
 

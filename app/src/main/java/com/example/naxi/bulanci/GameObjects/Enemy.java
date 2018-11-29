@@ -103,6 +103,7 @@ public class Enemy implements IEntity
             if (bullet.Creator!=this && bullet.positionX>PositionX+CollisionMask.left && bullet.positionX<PositionX+CollisionMask.right && bullet.positionY>PositionY+CollisionMask.top && bullet.positionY<PositionY+CollisionMask.bottom)
             {
                 KillMe();
+                bullet.Creator.GiveKill();
                 GameView.destroybullets.add(bullet);
                 break;
             }

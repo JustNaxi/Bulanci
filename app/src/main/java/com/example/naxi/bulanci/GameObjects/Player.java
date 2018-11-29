@@ -25,8 +25,8 @@ public class Player implements IEntity {
 
     public IGun Gun;
 
-    private int Kills = 0;
-    private int Deaths = 0;
+    public int Kills = 0;
+    public int Deaths = 0;
     public int PositionX = 50;
     public int PositionY = 50;
 
@@ -123,6 +123,7 @@ public class Player implements IEntity {
             if (bullet.Creator!=this && bullet.positionX>PositionX+CollisionMask.left && bullet.positionX<PositionX+CollisionMask.right && bullet.positionY>PositionY+CollisionMask.top && bullet.positionY<PositionY+CollisionMask.bottom)
             {
                 KillMe();
+                bullet.Creator.GiveKill();
                 GameView.destroybullets.add(bullet);
                 break;
             }
