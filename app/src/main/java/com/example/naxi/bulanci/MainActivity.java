@@ -10,10 +10,16 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.io.File;
 
 public class MainActivity extends Activity {
+
+    String maps[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +43,38 @@ public class MainActivity extends Activity {
 
         }
 
+        String path = Environment.getExternalStorageDirectory().toString()+"/bulanci";
+        Log.d("Files", "Path: " + path);
+        File directory = new File(path);
+        File[] files = directory.listFiles();
+        Log.d("Files", "Size: "+ files.length);
+
+        maps = new String[files.length];
+        for (int i = 0; i < files.length; i++)
+        {
+            maps[i]=files[i].getName();
+        }
+
+        ListAdapter myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, maps);
+        ListView mapListView = findViewById(R.id.listViewMaps);
+        mapListView.setAdapter(myAdapter);
+
+        mapListView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String map = String.valueOf(parent.getItemAtPosition(position));
+
+                        Intent intent = new Intent(MainActivity.this,SettingGameActivity.class);
+                        intent.putExtra("mapName", map);
+                        startActivity(intent);
+                    }
+                }
+        );
+
     }
 
-    public void startGame(View view) {
-        Intent intent = new Intent(this,MapListActivity.class);
-        startActivity(intent);
+    public void quitGame(View view) {
+        finish();
     }
 }
