@@ -1,5 +1,6 @@
 package com.example.naxi.bulanci.GameObjects;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,7 +10,9 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.os.Vibrator;
 
+import com.example.naxi.bulanci.GameActivity;
 import com.example.naxi.bulanci.GameObjects.Guns.GunM4;
 import com.example.naxi.bulanci.GameObjects.Guns.GunPistol;
 import com.example.naxi.bulanci.GameObjects.Guns.GunShotgun;
@@ -132,6 +135,13 @@ public class Player implements IEntity {
 
     private void KillMe()
     {
+        Vibrator vibrator = (Vibrator) GameView.GameActivity.getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator.hasVibrator())
+        {
+            vibrator.vibrate(500);
+        }
+
+
         Deaths++;
         Respawn();
 

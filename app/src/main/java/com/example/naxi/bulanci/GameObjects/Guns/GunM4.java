@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 
 import com.example.naxi.bulanci.GameObjects.Bullet;
 import com.example.naxi.bulanci.GameObjects.IEntity;
@@ -52,7 +53,16 @@ public class GunM4 implements IGun
     public boolean Shot(int positionX, int positionY, int moveX, int moveY)
     {
 
-        if (Delay<1) {Shots--; Delay = 5; Load = 3; GameView.bullets.add(new Bullet(GameView, positionX, positionY, moveX*Speed, moveY*Speed, Holder));}
+        if (Delay<1)
+        {
+            Shots--;
+            Delay = 5;
+            Load = 3;
+            GameView.bullets.add(new Bullet(GameView, positionX, positionY, moveX*Speed, moveY*Speed, Holder));
+
+
+            GameView.SoundPool.play(GameView.gunSounds[2],0,0.03f,0,0,1);
+        }
 
         if (Shots<=0) return true;
 

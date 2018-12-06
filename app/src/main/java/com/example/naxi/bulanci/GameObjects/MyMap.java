@@ -232,6 +232,8 @@ public class MyMap
         {
             canvas.drawBitmap(i.image, null, new Rect((int)(i.PositionX*GameView.ScalingX),(int)(i.PositionY*GameView.ScalingY),(int)((i.PositionX+i.image.getWidth())*GameView.ScalingX), (int)((i.PositionY+i.image.getHeight())*GameView.ScalingY)), null);
 
+
+
             /*
             Paint paint = new Paint();
             paint.setColor(Color.WHITE);
@@ -241,6 +243,15 @@ public class MyMap
             canvas.drawText(i.PositionX+"  "+i.PositionY+"  "+(i.PositionX+i.image.getWidth())+"  "+(i.PositionY+i.image.getHeight()),(int)(i.PositionX*GameView.ScalingX),(int)(i.PositionY*GameView.ScalingY),paint);
 */
         }
+
+        /*
+        for(Rect col : collisions)
+        {
+            Paint paint = new Paint();
+            paint.setColor(Color.WHITE);
+            canvas.drawRect(new Rect((int)(col.left*GameView.ScalingX),(int)(col.top*GameView.ScalingY) , (int)(col.right*GameView.ScalingX), (int)(col.bottom*GameView.ScalingY)), paint);
+        }
+        */
     }
 
     public void DrawForeground(Canvas canvas)

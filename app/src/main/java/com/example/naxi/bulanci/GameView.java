@@ -1,5 +1,6 @@
 package com.example.naxi.bulanci;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +13,15 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 import com.example.naxi.bulanci.GameObjects.Bonus;
 import com.example.naxi.bulanci.GameObjects.Bullet;
@@ -30,8 +36,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     GameLoop loop;
     Sensor proximitySensor;
-    GameActivity GameActivity;
+    public GameActivity GameActivity;
     GameController GameController;
+    public SoundPool SoundPool;
 
     public MyMap map;
     public Player player;
@@ -62,6 +69,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         GameActivity=ga;
         GameController = new GameController(this, pack.getInt("time",20)*30);
+
+
+        createSoundPool();
+
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
@@ -262,6 +273,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void EndGame()
     {
         //GameLoop.running= false;
+        SoundPool.release();
+        SoundPool=null;
+
         pack.putInt("kills",player.Kills);
         pack.putInt("deaths",player.Deaths);
 
@@ -298,4 +312,39 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         }
     };
+
+
+    public int gunSounds[] = new int[3];
+
+    protected void createSoundPool() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            createNewSoundPool();
+        } else {
+            createOldSoundPool();
+        }
+
+        gunSounds[0] = SoundPool.load(GameActivity, R.raw.soundpistol,1);
+        gunSounds[1] = SoundPool.load(GameActivity, R.raw.soundshotgun,1);
+        gunSounds[2] = SoundPool.load(GameActivity, R.raw.soundm4,1);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    protected void createNewSoundPool(){
+        AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        SoundPool = new SoundPool.Builder()
+                .setAudioAttributes(attributes)
+                .setMaxStreams(15)
+                .build();
+
+        Toast.makeText(GameActivity,"21", Toast.LENGTH_LONG).show();
+    }
+
+    @SuppressWarnings("deprecation")
+    protected void createOldSoundPool(){
+        SoundPool = new SoundPool(15,AudioManager.STREAM_MUSIC,0);
+        Toast.makeText(GameActivity,"19", Toast.LENGTH_LONG).show();
+    }
 }

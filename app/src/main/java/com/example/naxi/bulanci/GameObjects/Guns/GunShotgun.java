@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 
 import com.example.naxi.bulanci.GameObjects.Bullet;
 import com.example.naxi.bulanci.GameObjects.IEntity;
@@ -60,6 +61,8 @@ public class GunShotgun implements IGun
             GameView.bullets.add(new Bullet(GameView, positionX, positionY, moveX*Speed+moveY*1, moveY*Speed+moveX*1, Holder));
             GameView.bullets.add(new Bullet(GameView, positionX, positionY, moveX*Speed+moveY*-1, moveY*Speed+moveX*-1, Holder));
             GameView.bullets.add(new Bullet(GameView, positionX, positionY, moveX*Speed, moveY*Speed, Holder));
+
+            GameView.SoundPool.play(GameView.gunSounds[1],0,0.03f,0,0,1);
         }
 
         if (Shots<=0) return true;

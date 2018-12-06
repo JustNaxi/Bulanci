@@ -29,6 +29,14 @@ public class MainActivity extends Activity {
 
         }
 
+        if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.VIBRATE) == PackageManager.PERMISSION_DENIED){
+            //ask for permission
+            ActivityCompat.requestPermissions(MainActivity.this ,new String[]{Manifest.permission.VIBRATE}, 1);
+
+
+        }
+
     }
 
     public void startGame(View view) {

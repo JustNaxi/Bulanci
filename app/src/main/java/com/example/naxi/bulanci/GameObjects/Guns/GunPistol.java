@@ -4,10 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 
 import com.example.naxi.bulanci.GameObjects.Bullet;
 import com.example.naxi.bulanci.GameObjects.IEntity;
 import com.example.naxi.bulanci.GameView;
+import com.example.naxi.bulanci.MainActivity;
 import com.example.naxi.bulanci.R;
 
 public class GunPistol implements IGun
@@ -51,7 +53,15 @@ public class GunPistol implements IGun
     public boolean Shot( int positionX, int positionY, int moveX, int moveY)
     {
         if ((Delay<1)&&(IsShots==false)) {Shots = MaxShots; IsShots = true;}
-        if ((Delay<1)) {Shots--; Delay = 20; GameView.bullets.add(new Bullet(GameView, positionX, positionY, moveX*Speed, moveY*Speed, Holder));}
+        if ((Delay<1))
+        {
+            Shots--;
+            Delay = 20;
+            GameView.bullets.add(new Bullet(GameView, positionX, positionY, moveX*Speed, moveY*Speed, Holder));
+
+
+            GameView.SoundPool.play(GameView.gunSounds[0],0,0.03f,0,0,1);
+        }
 
         if ((Shots==0)&& IsShots) {Delay = 30*10; IsShots=false; }
 
