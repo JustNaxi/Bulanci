@@ -1,0 +1,7 @@
+<Mapa>
+      <load></load>
+      <ground><image></image></ground>
+      <background><x></x><y></y><image></image></background>
+      <foreground><x></x><y></y><image></image></foreground>
+      <collision><x1></x1><y1></y1><x2></x2><y2></y2></collision>
+</Mapa>
