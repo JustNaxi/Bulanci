@@ -13,3 +13,15 @@ Hra obsahuje:
 - Zvuky a jiné efekty
 - Střelba pomocí proximity sensoru
 
+
+
+Pokud si chcete zahrát, tak budete potřebovat i nějakou mapu.
+Ve složce Mapy/ máte jednu moji ukázku mapy. 
+Abyste ji dostali do hry, musíte ji vložit na androidu na SD kartu do složky "karta SD/bulanci" 
+
+Mapy si lze jednoduše vytvářet sám pomocí xml tagů. Ve složce SelfMap je ukázka mapy kde je přehled všech možných tagů.
+Mapa má velikost 1100x640. Skládá se z: ground - background of map, background - background objects, foreground - foreground objects. 
+Všechny obrázky je potřeba loadnout do paměti pomocí load. Kolize se zase dělají pomocí collision a levého horního rohu + pravého dolního rohu obdélníku kolize.
+
+
+
