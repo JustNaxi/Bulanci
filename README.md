@@ -1,13 +1,15 @@
 # Bulanci
-Projekt do předmětu TAMZ II, vytvořil VAS0166.
+Projekt do předmětu TAMZ II, vytvořil Michal Vašut VAS0166.
 
-Jedná se o přenesení klasické hry bulánky na mobilní zařízení s vlastními prvky.
+Jedná se o přenesení klasické hry bulánky na mobilní zařízení. Pro toho kdo nezná hru bulánky, tak je to jednoduchá 2D hra, ve které proti sobě bojují bulánci/polštáře. 
 
+Hra obsahuje:
 
-Hra bude obsahovat:
-- Více map
-- Ukládání score
-- Souboj proti nepřátelům
+- Výběr z 16 777 216 barev bulánků!!!
+- Možnost nastavení hry
+- Více map nebo vkládání vlastních
+- Souboj proti více nepřátelům
 - Více druhů zbraní
-- Různé nastavení
+- Zvuky a jiné efekty
+- Střelba pomocí proximity sensoru
 
