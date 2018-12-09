@@ -13,8 +13,6 @@ Hra obsahuje:
 - Zvuky a jiné efekty
 - Střelba pomocí proximity sensoru
 
-
-
 Pokud si chcete zahrát, tak budete potřebovat i nějakou mapu.
 Ve složce Mapy/ máte jednu moji ukázku mapy (Selfmap). 
 Abyste ji dostali do hry, musíte ji vložit na SD kartu nebo paměť telefonu do složky "/bulanci" 
@@ -28,5 +26,9 @@ foreground - foreground objects.
 Všechny obrázky je potřeba loadnout do paměti pomocí load. 
 Kolize se zase dělají pomocí collision a levého horního rohu + pravého dolního rohu obdélníku kolize.
 
-
+<p align="center">
+<img src="Images/mapa1.png" width="600"/>
+<img src="Images/mapa2.png" width="600"/>
+<img src="Images/menu.png" width="600"/>
+</p>
 
